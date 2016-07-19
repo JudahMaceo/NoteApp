@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>7/19 Note App</title>
+</head>
+
+<body>
+  <h1>7/19 Note App</h1>
+  <h3>Type note in here. Hit enter/return when done.</h3>
+  <textarea name="name" rows="8" cols="40"></textarea>
+  <ul id="list">
+  </ul>
+</body>
+<script type="text/javascript">
+  var listOfNotes = [];
+  var textArea = document.querySelector("textarea");
+  var list = document.getElementById("list");
+  var lis = document.createElement("li");
+
+  window.onload = function() {
+    console.log('window loaded');
+
+    for (var key in localStorage) {
+      // console.log(key);
+      // console.log(localStorage[key]);
+      lis = "<li>" + localStorage[key] + "</li>";
+      list.insertAdjacentHTML('beforeend', lis);
+    }
+  }
+
+  function notesToNotesArray() {
+    listOfNotes.push(textArea.value)
+  }
+
+  function notesArrayToLocalStorage() {
+    for (i = 0; i < listOfNotes.length; i++) {
+      localStorage["note #" + (i + 1)] = listOfNotes[i];
+    }
+  }
+
+  function localStorageToDOM() {
+    for (i = 0; i < listOfNotes.length; i++) {
+      lis = "<li>" + localStorage["note #" + (i + 1)] + "</li>";
+    }
+    list.insertAdjacentHTML('beforeend', lis);
+  }
+
+  textArea.addEventListener("keypress", function(e) {
+    if (e.keyCode === 13) {
+      notesToNotesArray();
+      textArea.value = "";
+      notesArrayToLocalStorage();
+      localStorageToDOM();
+    }
+  })
+</script>
+
+</html>
