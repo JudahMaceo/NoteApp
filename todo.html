@@ -14,45 +14,30 @@
   </ul>
 </body>
 <script type="text/javascript">
+
+window.onload(){
+  
+}
   var listOfNotes = [];
   var textArea = document.querySelector("textarea");
   var list = document.getElementById("list");
   var lis = document.createElement("li");
 
-  window.onload = function() {
-    console.log('window loaded');
-
-    for (var key in localStorage) {
-      // console.log(key);
-      // console.log(localStorage[key]);
-      lis = "<li>" + localStorage[key] + "</li>";
-      list.insertAdjacentHTML('beforeend', lis);
-    }
-  }
-
-  function notesToNotesArray() {
+  function notesToArrayToStorageToDOM() {
     listOfNotes.push(textArea.value)
-  }
-
-  function notesArrayToLocalStorage() {
     for (i = 0; i < listOfNotes.length; i++) {
       localStorage["note #" + (i + 1)] = listOfNotes[i];
-    }
-  }
-
-  function localStorageToDOM() {
-    for (i = 0; i < listOfNotes.length; i++) {
       lis = "<li>" + localStorage["note #" + (i + 1)] + "</li>";
     }
     list.insertAdjacentHTML('beforeend', lis);
   }
 
+
+
   textArea.addEventListener("keypress", function(e) {
     if (e.keyCode === 13) {
-      notesToNotesArray();
+      notesToArrayToStorageToDOM();
       textArea.value = "";
-      notesArrayToLocalStorage();
-      localStorageToDOM();
     }
   })
 </script>

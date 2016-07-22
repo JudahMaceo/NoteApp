@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Note App 7/22</title>
+</head>
+<body>
+  <h1>Note App 7/22</h1>
+  <form class="" action="index.html" method="post">
+    <input type="text" name="name" value="">
+    <input id="makeButton" type="button" name="name" value="make a note">
+    <input id="deleteButton" type="button" name="name" value="delete all notes">
+  </form>
+  <ul>
+  </ul>
+</body>
+
+<script type="text/javascript">
+  var makeButton = document.getElementById("makeButton");
+  var text = document.querySelector("input[type='text']");
+  var notesList = [];
+
+  window.onload = init();
+
+  function init(){
+    console.log('window loaded');
+    for(i = 0; i < localStorage.length; i++){
+      var key = localStorage.key(i);
+      var value = localStorage[key];
+      displayNote(value);
+    }
+  }
+
+  function createNote() {
+    var value = text.value;
+    displayNote(value);
+    setToStorage(value);
+  }
+
+  function displayNote(value) {
+    var ul = document.querySelector("ul");
+    var li = document.createElement("li");
+    var span = document.createElement("span");
+
+    span.innerHTML = key;
+    li.appendChild(span);
+    ul.appendChild(li);
+  }
+
+  function deleteAllNotes(){
+    localStorage.clear();
+    console.log(localStorage);
+  }
+
+  function setToStorage(value){
+    localStorage["sticky_" + (localStorage.length + 1)] = value;
+    console.log(localStorage);
+  }
+
+  makeButton.addEventListener("click", function() {
+    createNote();
+    text.value = "";
+  })
+
+  deleteButton.addEventListener("click", function(){
+    console.log('clicked on delete');
+    deleteAllNotes();
+  })
+
+</script>
+
+</html>
