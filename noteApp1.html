@@ -22,6 +22,7 @@
   var deleteButton = document.getElementById("deleteButton");
   var text = document.querySelector("input[type='text']");
 
+
   window.onload = init();
 
   function init(){
@@ -32,6 +33,7 @@
       displayNote(key,value);
     }
   }
+
 
   makeButton.addEventListener("click", function(e) {
     // var eventTimeStamp = e.timeStamp;
@@ -66,51 +68,61 @@
     li.setAttribute("data-note", key);
     li.appendChild(span);
     ul.appendChild(li);
-
-    var LI_get_Attr = li.getAttribute("data-note");
-    middleMan_LI_Data(LI_get_Attr);
   }
 
-  //
-  // function findNotes(){
-  //   for(i = 0; i < localStorage.length; i++){
-  //     var key = localStorage.key(i);
-  //     if(key.substring(0,4) === "note"){
-  //       var value = localStorage[key];
-  //       console.log(key, value);
-  //       // displayNote(key, value);
-  //     }
-  //   }
-  // }
-  //
-  // findButton.addEventListener("click", function(){
-  //   console.log('clicked on find');
-  //   findNotes();
-  //
-  // })
-  //
-  function deleteAllNotes(){
+    function deleteAllNotes(){
     localStorage.clear();
     console.log(localStorage);
-  }
-
-  function middleMan_LI_Data(LI_get_Attr){
-    for(i = 0; i < localStorage.length; i++){
-      var key = localStorage.key(i);
-      if(key === LI_get_Attr){
-        console.log('we have a match');
-      }
-    }
-  }
-
-  function deleteSelectedNote(){
-
   }
 
   deleteButton.addEventListener("click", function(){
     deleteAllNotes();
   })
 
+
+  findButton.addEventListener("click", function(){
+    console.log('clicked on find');
+    findNotes();
+
+  })
+
+//function name for this
+  //also
+    //only works after adding notes to page
+      //and then re-loading page (once items have re-loaded to page directly from local storage//
+  var allLis = document.querySelectorAll("li[data-note]");
+  console.log(allLis);
+
+  for(i = 0; i < allLis.length; i++){
+    allLis[i].addEventListener("click", function(){
+      var dataNote = this.getAttribute("data-note");
+      findNote(dataNote);
+    })
+  }
+
+//findNote() is actually deleteSingleNote for the time-being
+  //click on a single note
+    //it is deleted from local storage
+      //still have to figure out
+        //how to remove from display
+  function findNote(dataNote){
+    for(i = 0; i < localStorage.length; i++){
+      var key = localStorage.key(i);
+      var value = localStorage[key];
+      if(key === dataNote){
+        console.log("deleting...: ", key, value);
+        localStorage.removeItem(key);
+        //how to call displayNote
+          //to refresh page
+            //to reflect deleted notes
+      }
+      // if(key.substring(0,4) === "note"){
+      //   var value = localStorage[key];
+      //   console.log(key, value);
+      //   // displayNote(key, value);
+      // }
+    }
+  }
 </script>
 
 </html>
