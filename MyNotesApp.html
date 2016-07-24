@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Note App 7/24</title>
+</head>
+<body>
+  <h1>Note App 7/24</h1>
+  <form class="" action="index.html" method="post">
+    <input type="text" name="name" value="">
+    <input id="makeButton" type="button" name="name" value="make a note">
+    <input id= "findButton" type="button" name="name" value="find a note">
+    <input id="deleteButton" type="button" name="name" value="delete all notes">
+  </form>
+  <ul>
+  </ul>
+</body>
+
+<script type="text/javascript">
+  var makeButton = document.getElementById("makeButton");
+  var findButton = document.getElementById("findButton");
+  var deleteButton = document.getElementById("deleteButton");
+  var text = document.querySelector("input[type='text']");
+
+
+  window.onload = init();
+
+  function init(){
+    console.log('window loaded');
+    for(i = 0; i < localStorage.length; i++){
+      var key = localStorage.key(i);
+      var value = localStorage[key];
+      displayNote(key,value);
+    }
+  }
+
+
+  makeButton.addEventListener("click", function(e) {
+    // var eventTimeStamp = e.timeStamp;
+    makeNewID();
+    text.value = "";
+  })
+
+  function makeNewID(){
+    var currentTime = new Date().getTime();
+    var newID = currentTime.toString() + Math.random();
+    createNote(newID);
+  }
+
+  function createNote(key) {
+    var value = text.value;
+    setToStorage(key,value);
+  }
+
+  function setToStorage(key,value){
+    var newKey = "note #" + key;
+    localStorage[newKey] = value;
+    console.log(localStorage);
+    displayNote(newKey, value)
+
+  }
+
+  function displayNote(key,value) {
+    var ul = document.querySelector("ul");
+    var li = document.createElement("li");
+    var span = document.createElement("span");
+    span.innerHTML = key + ": " + value;
+    li.setAttribute("data-note", key);
+    li.appendChild(span);
+    ul.appendChild(li);
+  }
+
+    function deleteAllNotes(){
+    localStorage.clear();
+    console.log(localStorage);
+  }
+
+  deleteButton.addEventListener("click", function(){
+    deleteAllNotes();
+  })
+
+
+  findButton.addEventListener("click", function(){
+    console.log('clicked on find');
+    findNotes();
+
+  })
+
+//function name for this
+  //also
+    //only works after adding notes to page
+      //and then re-loading page (once items have re-loaded to page directly from local storage//
+  var allLis = document.querySelectorAll("li[data-note]");
+  console.log(allLis);
+
+  for(i = 0; i < allLis.length; i++){
+    allLis[i].addEventListener("click", function(){
+      var dataNote = this.getAttribute("data-note");
+      findNote(dataNote);
+    })
+  }
+
+//findNote() is actually deleteSingleNote for the time-being
+  //click on a single note
+    //it is deleted from local storage
+      //still have to figure out
+        //how to remove from display
+  function findNote(dataNote){
+    for(i = 0; i < localStorage.length; i++){
+      var key = localStorage.key(i);
+      var value = localStorage[key];
+      if(key === dataNote){
+        console.log("deleting...: ", key, value);
+        localStorage.removeItem(key);
+        //how to call displayNote
+          //to refresh page
+            //to reflect deleted notes
+      }
+      // if(key.substring(0,4) === "note"){
+      //   var value = localStorage[key];
+      //   console.log(key, value);
+      //   // displayNote(key, value);
+      // }
+    }
+  }
+</script>
+
+</html>
