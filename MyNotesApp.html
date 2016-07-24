@@ -6,8 +6,10 @@
 </head>
 <body>
   <h1>Note App 7/24</h1>
+  <!-- add text input for message title  -->
   <form class="" action="index.html" method="post">
-    <input type="text" name="name" value="">
+    <input id="title" type="text" name="name" value="" placeholder="message title">
+    <input id ="content" type="text" name="name" value="" placeholder="message content">
     <input id="makeButton" type="button" name="name" value="make a note">
     <input id= "findButton" type="button" name="name" value="find a note">
     <input id="deleteButton" type="button" name="name" value="delete all notes">
@@ -20,11 +22,11 @@
   var makeButton = document.getElementById("makeButton");
   var findButton = document.getElementById("findButton");
   var deleteButton = document.getElementById("deleteButton");
-  var text = document.querySelector("input[type='text']");
+  var title = document.getElementById("title");
+  var content = document.getElementById("content");
 
 
   window.onload = init();
-
   function init(){
     console.log('window loaded');
     for(i = 0; i < localStorage.length; i++){
@@ -34,11 +36,10 @@
     }
   }
 
-
   makeButton.addEventListener("click", function(e) {
-    // var eventTimeStamp = e.timeStamp;
     makeNewID();
-    text.value = "";
+    title.value = "";
+    content.value = "";
   })
 
   function makeNewID(){
@@ -48,7 +49,7 @@
   }
 
   function createNote(key) {
-    var value = text.value;
+    var value = title.value;
     setToStorage(key,value);
   }
 
@@ -57,7 +58,6 @@
     localStorage[newKey] = value;
     console.log(localStorage);
     displayNote(newKey, value)
-
   }
 
   function displayNote(key,value) {
@@ -86,13 +86,8 @@
 
   })
 
-//function name for this
-  //also
-    //only works after adding notes to page
-      //and then re-loading page (once items have re-loaded to page directly from local storage//
   var allLis = document.querySelectorAll("li[data-note]");
   console.log(allLis);
-
   for(i = 0; i < allLis.length; i++){
     allLis[i].addEventListener("click", function(){
       var dataNote = this.getAttribute("data-note");
